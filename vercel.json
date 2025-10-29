@@ -1,0 +1,40 @@
+{
+  "version": 2,
+  "name": "modern-portfolio-website",
+  "builds": [
+    {
+      "src": "protfile/**/*",
+      "use": "@vercel/static"
+    }
+  ],
+  "routes": [
+    {
+      "src": "/cv",
+      "dest": "/protfile/assets/Methush_Anjula_CV.pdf"
+    },
+    {
+      "src": "/(.*)",
+      "dest": "/protfile/$1"
+    }
+  ],
+  "headers": [
+    {
+      "source": "/protfile/assets/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    },
+    {
+      "source": "/protfile/images/(.*)",
+      "headers": [
+        {
+          "key": "Cache-Control", 
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
+    }
+  ]
+}
