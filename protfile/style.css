@@ -1,26 +1,26 @@
 /* CSS Variables */
 :root {
-    --bg-primary: #0a0a0a;
-    --bg-secondary: #111111;
-    --bg-tertiary: #1a1a1a;
+    --bg-primary: #0a0a0f;
+    --bg-secondary: #0f1117;
+    --bg-tertiary: #1a1b26;
     --text-primary: #ffffff;
-    --text-secondary: #a0a0a0;
-    --text-muted: #666666;
-    --accent-primary: #ff0000;
-    --accent-secondary: #cc0000;
-    --accent-gradient: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-    --accent-gradient-hover: linear-gradient(135deg, #ea0000 0%, #bb0000 100%);
-    --border-accent: rgba(255, 0, 0, 0.15);
-    --shadow-glow: 0 0 60px rgba(255, 0, 0, 0.15);
-    --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.3);
-    --shadow-hover: 0 30px 60px rgba(0, 0, 0, 0.4);
+    --text-secondary: #a1a1aa;
+    --text-muted: #71717a;
+    --accent-primary: #6366f1;
+    --accent-secondary: #3b82f6;
+    --accent-gradient: linear-gradient(135deg, #6366f1 0%, #3b82f6 100%);
+    --accent-gradient-hover: linear-gradient(135deg, #5558e3 0%, #2563eb 100%);
+    --border-accent: rgba(99, 102, 241, 0.2);
+    --shadow-glow: 0 0 60px rgba(99, 102, 241, 0.15);
+    --shadow-card: 0 20px 40px rgba(0, 0, 0, 0.4);
+    --shadow-hover: 0 30px 60px rgba(99, 102, 241, 0.2);
     --border-radius: 16px;
     --border-radius-pill: 50px;
     --transition-smooth: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
     --transition-fast: all 0.2s ease;
     --transition-spring: all 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
     --glass-bg: rgba(255, 255, 255, 0.05);
-    --glass-border: rgba(255, 255, 255, 0.1);
+    --glass-border: rgba(99, 102, 241, 0.15);
 }
 
 * {
@@ -140,7 +140,7 @@ header.scrolled {
 .nav-link:hover,
 .nav-link.active {
     color: var(--text-primary);
-    background: rgba(255, 0, 0, 0.1);
+    background: rgba(99, 102, 241, 0.15);
     transform: translateY(-1px);
 }
 
@@ -185,7 +185,7 @@ header.scrolled {
 
 .cta-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
 }
 
 .hamburger {
@@ -254,7 +254,7 @@ header.scrolled {
 
 /* Enhanced Home Section */
 .home {
-    background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.03) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
     position: relative;
     overflow: hidden;
 }
@@ -266,7 +266,7 @@ header.scrolled {
     right: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.15) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(100px);
     animation: float 6s ease-in-out infinite;
@@ -418,7 +418,7 @@ header.scrolled {
 
 .hire-btn:hover {
     transform: translateY(-3px);
-    box-shadow: 0 15px 35px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 15px 35px rgba(99, 102, 241, 0.4);
 }
 
 .hire-btn.secondary:hover {
@@ -561,7 +561,7 @@ header.scrolled {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 0, 0, 0.02) 0%, transparent 50%);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -709,7 +709,7 @@ header.scrolled {
     background: var(--accent-primary);
     color: var(--bg-primary);
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
 }
 
 /* Animations */
@@ -1089,7 +1089,7 @@ header.scrolled {
     left: 0;
     width: 100%;
     height: 100%;
-    background: radial-gradient(ellipse at center, rgba(255, 0, 0, 0.03) 0%, transparent 70%);
+    background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.04) 0%, transparent 70%);
     pointer-events: none;
 }
 
@@ -1179,7 +1179,7 @@ header.scrolled {
     right: -10%;
     width: 400px;
     height: 400px;
-    background: radial-gradient(circle, rgba(255, 0, 0, 0.1) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(99, 102, 241, 0.12) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(100px);
     animation: float 8s ease-in-out infinite;
@@ -1215,7 +1215,7 @@ header.scrolled {
     left: -100%;
     width: 100%;
     height: 100%;
-    background: linear-gradient(90deg, transparent, rgba(255, 0, 0, 0.1), transparent);
+    background: linear-gradient(90deg, transparent, rgba(99, 102, 241, 0.15), transparent);
     transition: left 0.5s;
 }
 
@@ -1264,7 +1264,7 @@ header.scrolled {
 }
 
 .service-features span {
-    background: rgba(255, 0, 0, 0.1);
+    background: rgba(99, 102, 241, 0.15);
     color: var(--accent-primary);
     padding: 0.3rem 0.8rem;
     border-radius: 20px;
@@ -1285,7 +1285,7 @@ header.scrolled {
     left: -10%;
     width: 500px;
     height: 500px;
-    background: radial-gradient(circle, rgba(255, 0, 0, 0.05) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(59, 130, 246, 0.08) 0%, transparent 70%);
     border-radius: 50%;
     filter: blur(100px);
     animation: float 10s ease-in-out infinite reverse;
@@ -1341,7 +1341,7 @@ header.scrolled {
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(255, 0, 0, 0.9);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.95) 0%, rgba(59, 130, 246, 0.95) 100%);
     display: flex;
     align-items: center;
     justify-content: center;
@@ -1400,7 +1400,7 @@ header.scrolled {
 }
 
 .project-tech span {
-    background: rgba(255, 0, 0, 0.1);
+    background: rgba(99, 102, 241, 0.15);
     color: var(--accent-primary);
     padding: 0.3rem 0.8rem;
     border-radius: 15px;
@@ -1421,7 +1421,7 @@ header.scrolled {
     left: 0;
     width: 100%;
     height: 100%;
-    background: linear-gradient(135deg, rgba(255, 0, 0, 0.02) 0%, transparent 50%);
+    background: linear-gradient(135deg, rgba(99, 102, 241, 0.03) 0%, transparent 50%);
     pointer-events: none;
 }
 
@@ -1523,7 +1523,7 @@ header.scrolled {
 .form-group input:focus,
 .form-group textarea:focus {
     border-color: var(--accent-primary);
-    box-shadow: 0 0 0 3px rgba(255, 0, 0, 0.1);
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.15);
 }
 
 .form-group label {
@@ -1568,7 +1568,7 @@ header.scrolled {
 
 .submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 30px rgba(255, 0, 0, 0.3);
+    box-shadow: 0 10px 30px rgba(99, 102, 241, 0.4);
 }
 
 /* Responsive Updates */
