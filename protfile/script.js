@@ -525,7 +525,7 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         }
 
-        // Only enable on desktop/tablet (not on small mobile)
+        // Desktop/Tablet: Enable mouse parallax
         if (window.innerWidth >= 768) {
             homeSection.addEventListener('mousemove', handleMouseMove);
             homeSection.addEventListener('mouseenter', handleMouseEnter);
@@ -539,6 +539,125 @@ document.addEventListener('DOMContentLoaded', function() {
             // Initialize neutral position
             mouseX = window.innerWidth / 2;
             mouseY = window.innerHeight / 2;
+        }
+        // Mobile: Enable gyroscope parallax
+        else if (window.innerWidth < 768) {
+            initMobileGyroscope();
+        }
+
+        // Mobile Gyroscope 3D Parallax
+        function initMobileGyroscope() {
+            let gyroX = 0;
+            let gyroY = 0;
+            let currentGyroX = 0;
+            let currentGyroY = 0;
+            let gyroRafId = null;
+            let isGyroActive = false;
+
+            // Gyroscope animation loop
+            function animateGyro() {
+                // Smooth interpolation
+                currentGyroX += (gyroX - currentGyroX) * 0.1;
+                currentGyroY += (gyroY - currentGyroY) * 0.1;
+
+                // Apply gyroscope parallax
+                const rotateX = currentGyroY * 0.5; // Reduced intensity for mobile
+                const rotateY = currentGyroX * -0.5;
+
+                homeContent.style.transform = `
+                    rotateX(${rotateX}deg)
+                    rotateY(${rotateY}deg)
+                `;
+
+                // Apply to image
+                if (imageContainer) {
+                    const imageRotateX = currentGyroY * 0.7;
+                    const imageRotateY = currentGyroX * -0.7;
+                    const imageTranslateZ = 30 + Math.abs(imageRotateY) * 2;
+
+                    imageContainer.style.transform = `
+                        translateZ(${imageTranslateZ}px)
+                        rotateX(${imageRotateX}deg)
+                        rotateY(${imageRotateY}deg)
+                    `;
+                }
+
+                // Apply to stats
+                stats.forEach((stat, index) => {
+                    const statDepth = 20 + (index * 5);
+                    const statRotateX = currentGyroY * 0.3;
+                    const statRotateY = currentGyroX * -0.3;
+
+                    stat.style.transform = `
+                        translateZ(${statDepth}px)
+                        rotateX(${statRotateX}deg)
+                        rotateY(${statRotateY}deg)
+                    `;
+                });
+
+                gyroRafId = requestAnimationFrame(animateGyro);
+            }
+
+            // Handle device orientation
+            function handleOrientation(event) {
+                if (!isGyroActive) {
+                    isGyroActive = true;
+                    gyroRafId = requestAnimationFrame(animateGyro);
+                }
+
+                // Get rotation values (beta = front-to-back, gamma = left-to-right)
+                const beta = event.beta;  // -180 to 180 (front to back tilt)
+                const gamma = event.gamma; // -90 to 90 (left to right tilt)
+
+                // Normalize values to -20 to 20 range
+                gyroX = Math.max(-20, Math.min(20, gamma));
+                gyroY = Math.max(-20, Math.min(20, beta - 45)); // Subtract 45 to account for natural phone angle
+            }
+
+            // Request permission for iOS 13+
+            function requestGyroPermission() {
+                if (typeof DeviceOrientationEvent !== 'undefined' && typeof DeviceOrientationEvent.requestPermission === 'function') {
+                    // iOS 13+ requires permission
+                    DeviceOrientationEvent.requestPermission()
+                        .then(permissionState => {
+                            if (permissionState === 'granted') {
+                                window.addEventListener('deviceorientation', handleOrientation, true);
+                                console.log('📱 Gyroscope 3D enabled for mobile!');
+                            } else {
+                                console.log('Gyroscope permission denied');
+                            }
+                        })
+                        .catch(console.error);
+                } else {
+                    // Non-iOS or older iOS
+                    window.addEventListener('deviceorientation', handleOrientation, true);
+                    console.log('📱 Gyroscope 3D enabled for mobile!');
+                }
+            }
+
+            // Auto-enable gyroscope when user interacts with the page
+            let hasRequestedPermission = false;
+            function enableGyroOnInteraction() {
+                if (!hasRequestedPermission) {
+                    hasRequestedPermission = true;
+                    requestGyroPermission();
+                    // Remove listeners after first interaction
+                    homeSection.removeEventListener('touchstart', enableGyroOnInteraction);
+                    homeSection.removeEventListener('click', enableGyroOnInteraction);
+                }
+            }
+
+            // Wait for user interaction (required for iOS)
+            homeSection.addEventListener('touchstart', enableGyroOnInteraction, { once: true });
+            homeSection.addEventListener('click', enableGyroOnInteraction, { once: true });
+
+            // Clean up on page unload
+            window.addEventListener('beforeunload', () => {
+                if (gyroRafId) {
+                    cancelAnimationFrame(gyroRafId);
+                }
+                window.removeEventListener('deviceorientation', handleOrientation);
+            });
         }
     }
 
@@ -567,7 +686,11 @@ document.addEventListener('DOMContentLoaded', function() {
         }, 100);
 
         console.log('Portfolio website initialized successfully! 🚀');
-        console.log('3D Parallax effect enabled for hero section ✨');
+        if (window.innerWidth >= 768) {
+            console.log('🖱️ Desktop 3D Parallax: Mouse tracking enabled ✨');
+        } else {
+            console.log('📱 Mobile 3D Parallax: Gyroscope ready (tap to activate) ✨');
+        }
     }
 
     // Contact form handling
