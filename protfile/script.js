@@ -399,28 +399,175 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
+    // 3D Parallax Effect for Hero Section
+    function init3DParallax() {
+        const homeSection = document.querySelector('.home');
+        const homeContent = document.querySelector('.home-content');
+        const imageContainer = document.querySelector('.image-container');
+        const floatingCards = document.querySelectorAll('.floating-card');
+        const stats = document.querySelectorAll('.stat');
+
+        if (!homeSection || !homeContent) return;
+
+        let rafId = null;
+        let mouseX = 0;
+        let mouseY = 0;
+        let currentX = 0;
+        let currentY = 0;
+
+        // Smooth animation function
+        function animate() {
+            // Smooth interpolation
+            currentX += (mouseX - currentX) * 0.1;
+            currentY += (mouseY - currentY) * 0.1;
+
+            // Apply parallax to home content
+            const rotateX = (currentY / window.innerHeight - 0.5) * 10;
+            const rotateY = (currentX / window.innerWidth - 0.5) * -10;
+
+            homeContent.style.transform = `
+                rotateX(${rotateX}deg)
+                rotateY(${rotateY}deg)
+            `;
+
+            // Apply deeper parallax to image container
+            if (imageContainer) {
+                const imageRotateX = (currentY / window.innerHeight - 0.5) * 15;
+                const imageRotateY = (currentX / window.innerWidth - 0.5) * -15;
+                const imageTranslateZ = 30 + Math.abs(imageRotateY) * 2;
+
+                imageContainer.style.transform = `
+                    translateZ(${imageTranslateZ}px)
+                    rotateX(${imageRotateX}deg)
+                    rotateY(${imageRotateY}deg)
+                `;
+            }
+
+            // Apply varying parallax to floating cards
+            floatingCards.forEach((card, index) => {
+                const depth = 40 + (index * 20);
+                const cardRotateX = (currentY / window.innerHeight - 0.5) * (8 + index * 2);
+                const cardRotateY = (currentX / window.innerWidth - 0.5) * -(8 + index * 2);
+
+                card.style.transform = `
+                    translateZ(${depth}px)
+                    rotateX(${cardRotateX}deg)
+                    rotateY(${cardRotateY}deg)
+                `;
+            });
+
+            // Apply subtle parallax to stats
+            stats.forEach((stat, index) => {
+                const statDepth = 20 + (index * 5);
+                const statRotateX = (currentY / window.innerHeight - 0.5) * 3;
+                const statRotateY = (currentX / window.innerWidth - 0.5) * -3;
+
+                stat.style.transform = `
+                    translateZ(${statDepth}px)
+                    rotateX(${statRotateX}deg)
+                    rotateY(${statRotateY}deg)
+                `;
+            });
+
+            rafId = requestAnimationFrame(animate);
+        }
+
+        // Mouse move handler
+        function handleMouseMove(event) {
+            const rect = homeSection.getBoundingClientRect();
+            mouseX = event.clientX - rect.left;
+            mouseY = event.clientY - rect.top;
+        }
+
+        // Mouse enter/leave handlers
+        function handleMouseEnter() {
+            if (!rafId) {
+                rafId = requestAnimationFrame(animate);
+            }
+        }
+
+        function handleMouseLeave() {
+            // Reset to neutral position
+            mouseX = window.innerWidth / 2;
+            mouseY = window.innerHeight / 2;
+
+            setTimeout(() => {
+                if (rafId) {
+                    cancelAnimationFrame(rafId);
+                    rafId = null;
+                }
+
+                // Smooth reset
+                homeContent.style.transform = 'rotateX(0deg) rotateY(0deg)';
+
+                if (imageContainer) {
+                    imageContainer.style.transform = 'translateZ(30px) rotateX(0deg) rotateY(0deg)';
+                }
+
+                floatingCards.forEach((card, index) => {
+                    const depth = 40 + (index * 20);
+                    card.style.transform = `translateZ(${depth}px) rotateX(0deg) rotateY(0deg)`;
+                });
+
+                stats.forEach((stat, index) => {
+                    const statDepth = 20 + (index * 5);
+                    stat.style.transform = `translateZ(${statDepth}px) rotateX(0deg) rotateY(0deg)`;
+                });
+            }, 100);
+        }
+
+        // Touch support for mobile
+        function handleTouchMove(event) {
+            if (event.touches.length > 0) {
+                const rect = homeSection.getBoundingClientRect();
+                mouseX = event.touches[0].clientX - rect.left;
+                mouseY = event.touches[0].clientY - rect.top;
+            }
+        }
+
+        // Only enable on desktop/tablet (not on small mobile)
+        if (window.innerWidth >= 768) {
+            homeSection.addEventListener('mousemove', handleMouseMove);
+            homeSection.addEventListener('mouseenter', handleMouseEnter);
+            homeSection.addEventListener('mouseleave', handleMouseLeave);
+
+            // Touch events for tablets
+            homeSection.addEventListener('touchmove', handleTouchMove);
+            homeSection.addEventListener('touchstart', handleMouseEnter);
+            homeSection.addEventListener('touchend', handleMouseLeave);
+
+            // Initialize neutral position
+            mouseX = window.innerWidth / 2;
+            mouseY = window.innerHeight / 2;
+        }
+    }
+
     // Initialize everything
     function init() {
         // Start typewriter effect
         if (heroSubtitle) {
             typeWriter();
         }
-        
+
         // Setup animations
         setupAnimations();
-        
+
         // Initialize navigation
         initializeActiveNav();
-        
+
         // Initial scroll check
         handleScroll();
-        
+
+        // Initialize 3D parallax effect
+        init3DParallax();
+
         // Add loaded class for CSS animations
         setTimeout(() => {
             document.body.classList.add('loaded');
         }, 100);
-        
+
         console.log('Portfolio website initialized successfully! 🚀');
+        console.log('3D Parallax effect enabled for hero section ✨');
     }
 
     // Contact form handling

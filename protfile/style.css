@@ -257,6 +257,8 @@ header.scrolled {
     background: radial-gradient(ellipse at center, rgba(99, 102, 241, 0.05) 0%, transparent 70%);
     position: relative;
     overflow: hidden;
+    perspective: 1500px;
+    perspective-origin: center center;
 }
 
 .home::before {
@@ -270,6 +272,7 @@ header.scrolled {
     border-radius: 50%;
     filter: blur(100px);
     animation: float 6s ease-in-out infinite;
+    transform-style: preserve-3d;
 }
 
 .home-content {
@@ -281,12 +284,18 @@ header.scrolled {
     margin: 0 auto;
     position: relative;
     z-index: 1;
+    transform-style: preserve-3d;
+    transition: transform 0.1s ease-out;
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .home-text {
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    transform-style: preserve-3d;
+    transform: translateZ(50px);
 }
 
 .greeting {
@@ -349,6 +358,7 @@ header.scrolled {
     margin: 2rem 0;
     opacity: 0;
     animation: fadeInUp 0.8s ease forwards 1s;
+    transform-style: preserve-3d;
 }
 
 .stat {
@@ -358,12 +368,16 @@ header.scrolled {
     border: 1px solid var(--glass-border);
     border-radius: var(--border-radius);
     backdrop-filter: blur(10px);
-    transition: 0s;
+    transition: transform 0.3s ease-out, box-shadow 0.3s ease-out, border-color 0.3s ease-out;
+    transform-style: preserve-3d;
+    transform: translateZ(20px);
+    will-change: transform;
+    backface-visibility: hidden;
 }
 
 .stat:hover {
-    transform: translateY(-5px);
-    box-shadow: var(--shadow-card);
+    transform: translateZ(60px) translateY(-10px) scale(1.05);
+    box-shadow: 0 30px 60px rgba(99, 102, 241, 0.3);
     border-color: var(--accent-primary);
 }
 
@@ -489,6 +503,15 @@ header.scrolled {
     position: relative;
     opacity: 0;
     animation: fadeInScale 1s ease forwards 0.5s;
+    transform-style: preserve-3d;
+    transform: translateZ(30px) rotateY(-5deg);
+    transition: transform 0.3s ease-out;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.image-container:hover {
+    transform: translateZ(80px) rotateY(0deg) scale(1.02);
 }
 
 .profile-image {
@@ -523,6 +546,15 @@ header.scrolled {
     font-size: 0.9rem;
     animation: floatCard 4s ease-in-out infinite;
     box-shadow: var(--shadow-card);
+    transform-style: preserve-3d;
+    transition: transform 0.3s ease-out;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.floating-card:hover {
+    transform: translateZ(60px) scale(1.1);
+    box-shadow: 0 30px 60px rgba(99, 102, 241, 0.3);
 }
 
 .floating-card i {
@@ -534,18 +566,33 @@ header.scrolled {
     top: 10%;
     right: -20%;
     animation-delay: 0s;
+    transform: translateZ(40px);
+}
+
+.card-1:hover {
+    transform: translateZ(90px) scale(1.1) rotateY(-5deg);
 }
 
 .card-2 {
     bottom: 30%;
     left: -25%;
     animation-delay: 1.5s;
+    transform: translateZ(60px);
+}
+
+.card-2:hover {
+    transform: translateZ(110px) scale(1.1) rotateY(5deg);
 }
 
 .card-3 {
     bottom: 10%;
     right: -15%;
     animation-delay: 3s;
+    transform: translateZ(50px);
+}
+
+.card-3:hover {
+    transform: translateZ(100px) scale(1.1) rotateY(-5deg);
 }
 
 /* Enhanced About Section */
