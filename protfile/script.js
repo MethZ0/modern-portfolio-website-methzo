@@ -553,6 +553,7 @@ document.addEventListener('DOMContentLoaded', function() {
             let currentGyroY = 0;
             let gyroRafId = null;
             let isGyroActive = false;
+            const gyroOverlay = document.getElementById('gyro-overlay');
 
             // Gyroscope animation loop
             function animateGyro() {
@@ -623,33 +624,75 @@ document.addEventListener('DOMContentLoaded', function() {
                             if (permissionState === 'granted') {
                                 window.addEventListener('deviceorientation', handleOrientation, true);
                                 console.log('📱 Gyroscope 3D enabled for mobile!');
+                                hideOverlay();
                             } else {
                                 console.log('Gyroscope permission denied');
+                                hideOverlay();
                             }
                         })
-                        .catch(console.error);
+                        .catch(err => {
+                            console.error('Gyroscope permission error:', err);
+                            hideOverlay();
+                        });
                 } else {
                     // Non-iOS or older iOS
                     window.addEventListener('deviceorientation', handleOrientation, true);
                     console.log('📱 Gyroscope 3D enabled for mobile!');
+                    hideOverlay();
+                }
+            }
+
+            // Hide overlay with animation
+            function hideOverlay() {
+                if (gyroOverlay) {
+                    gyroOverlay.classList.add('hide');
+                    setTimeout(() => {
+                        gyroOverlay.classList.remove('visible');
+                        gyroOverlay.style.display = 'none';
+                    }, 400);
+                }
+            }
+
+            // Show overlay
+            function showOverlay() {
+                if (gyroOverlay) {
+                    gyroOverlay.style.display = 'flex';
+                    setTimeout(() => {
+                        gyroOverlay.classList.add('visible');
+                    }, 10);
                 }
             }
 
             // Auto-enable gyroscope when user interacts with the page
             let hasRequestedPermission = false;
-            function enableGyroOnInteraction() {
+
+            function enableGyroOnInteraction(event) {
+                event.preventDefault();
+                event.stopPropagation();
                 if (!hasRequestedPermission) {
                     hasRequestedPermission = true;
                     requestGyroPermission();
-                    // Remove listeners after first interaction
-                    homeSection.removeEventListener('touchstart', enableGyroOnInteraction);
-                    homeSection.removeEventListener('click', enableGyroOnInteraction);
+                    console.log('📱 User tapped - activating gyroscope...');
                 }
             }
 
-            // Wait for user interaction (required for iOS)
-            homeSection.addEventListener('touchstart', enableGyroOnInteraction, { once: true });
-            homeSection.addEventListener('click', enableGyroOnInteraction, { once: true });
+            // Show overlay on page load for mobile
+            showOverlay();
+
+            // Attach listener to the overlay itself
+            if (gyroOverlay) {
+                gyroOverlay.addEventListener('click', enableGyroOnInteraction, { once: true });
+                gyroOverlay.addEventListener('touchstart', enableGyroOnInteraction, { once: true, passive: false });
+            }
+
+            // Fallback: if user somehow interacts with home section directly
+            homeSection.addEventListener('touchstart', function fallbackActivation(event) {
+                if (!hasRequestedPermission) {
+                    hasRequestedPermission = true;
+                    requestGyroPermission();
+                    console.log('📱 Fallback: User tapped home section');
+                }
+            }, { once: true, passive: true });
 
             // Clean up on page unload
             window.addEventListener('beforeunload', () => {
