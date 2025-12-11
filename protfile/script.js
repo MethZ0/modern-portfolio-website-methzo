@@ -224,7 +224,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // CV Download Function
     function downloadCV() {
         // For now, open CV in new tab (replace with actual PDF when available)
-        const cvUrl = 'assets/Methush_Anjula_CV.pdf'; // Change to 'assets/Methush_Anjula_CV.pdf' when PDF is ready
+        const cvUrl = 'assets/Methush_Anjula_SLIIT.pdf'; // Change to 'assets/Methush_Anjula_CV.pdf' when PDF is ready
         
         // Open CV in new tab
         window.open(cvUrl, '_blank');
