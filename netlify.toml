@@ -14,7 +14,7 @@
 # Redirect rules
 [[redirects]]
   from = "/cv"
-  to = "/assets/Methush_Anjula_CV.pdf"
+  to = "/assets/Methush_Anjula_SLIIT.pdf"
   status = 200
 
 # Custom headers for security
